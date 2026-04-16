@@ -30,6 +30,7 @@ services:
       - DB_PASSWORD=123rafi456
       - DB_NAME=fleetify_db
       - JWT_SECRET=supersecretJwtKey123
+      - WEB_HOOK=https://webhook.site/b09fe919-d671-4b7e-9041-7215a7874704
 
 volumes:
   postgres_data:

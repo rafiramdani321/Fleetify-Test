@@ -3,6 +3,7 @@ package handlers
 import (
 	"fleetify-backend/config"
 	"fleetify-backend/models"
+	"fleetify-backend/utils"
 	"fmt"
 	"time"
 
@@ -49,6 +50,8 @@ func CreateInvoice(c *fiber.Ctx) error {
 
 	userID := c.Locals("user_id").(float64)
 
+	var finalInvoice models.Invoice
+
 	err := config.DB.Transaction(func(tx *gorm.DB) error {
 		var grandTotal int64 = 0
 		var invoiceDetails []models.InvoiceDetail
@@ -70,7 +73,7 @@ func CreateInvoice(c *fiber.Ctx) error {
 			})
 		}
 
-		invoice := models.Invoice{
+		finalInvoice = models.Invoice{
 			InvoiceNumber: fmt.Sprintf("INV-%d", time.Now().Unix()),
 			SenderName: req.SenderName,
 			SenderAddress: req.SenderAddress,
@@ -79,9 +82,9 @@ func CreateInvoice(c *fiber.Ctx) error {
 			TotalAmount: grandTotal,
 			CreatedBy: uint(userID),
 			Details: invoiceDetails,
-		}
+		} 
 
-		if err := tx.Create(&invoice).Error; err != nil {
+		if err := tx.Create(&finalInvoice).Error; err != nil {
 			return err
 		}
 
@@ -91,6 +94,8 @@ func CreateInvoice(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"message": err.Error()})
 	}
+
+	utils.SendInvoiceWebhook(finalInvoice)
 
 	return c.Status(201).JSON(fiber.Map{"message": "Invoice created successfully"})
 }
