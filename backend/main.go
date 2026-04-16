@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"fleetify-backend/config"
+	"fleetify-backend/routes"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -25,6 +26,8 @@ func main() {
 		AllowOrigins: "*",
 		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
 	}))
+
+	routes.SetupRoutes(app)
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{"message": "Server is running!"})

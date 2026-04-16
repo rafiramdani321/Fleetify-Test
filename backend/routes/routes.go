@@ -1,7 +1,8 @@
 package routes
 
 import (
-	"fleetify-backend/middleware"
+	"fleetify-backend/handlers"
+	// "fleetify-backend/middleware"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -9,9 +10,9 @@ import (
 func SetupRoutes(app *fiber.App){
 	api := app.Group("/api")
 
-	api.Post("/login")
-	api.Get("/items")
+	api.Post("/login", handlers.Login)
+	// api.Get("/items")
 
-	invoice := api.Group("/invoices", middleware.AuthRequired)
-	invoice.Post("/")
+	// invoice := api.Group("/invoices", middleware.AuthRequired)
+	// invoice.Post("/")
 }
