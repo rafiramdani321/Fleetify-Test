@@ -11,7 +11,7 @@ func SetupRoutes(app *fiber.App){
 	api := app.Group("/api")
 
 	api.Post("/login", handlers.Login)
-	// api.Get("/items")
+	api.Get("/items", handlers.GetItems)
 
 	invoice := api.Group("/invoices", middleware.AuthRequired)
 	invoice.Post("/", handlers.CreateInvoice)
