@@ -19,6 +19,14 @@ func Login(c *fiber.Ctx) error {
 		return c.Status(400).JSON(fiber.Map{"message": "Invalid input"})
 	}
 
+	if req.Username == "" {
+		return c.Status(400).JSON(fiber.Map{"message": "Username is required"})
+	}
+
+	if req.Password == "" {
+		return c.Status(400).JSON(fiber.Map{"message": "Password is required"})
+	}
+
 	var userID int
 	var role string
 
