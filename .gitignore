@@ -1,0 +1,8 @@
+# Dependency
+backend/vendor/
+frontend/node_modules/
+
+# Environment Variables (Sangat Penting)
+.env
+backend/.env
+frontend/.env
