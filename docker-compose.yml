@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # Service Database
+  db:
+    image: postgres:15-alpine
+    container_name: fleetify-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123rafi456
+      POSTGRES_DB: fleetify_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Service Backend
+  backend:
+    build: ./backend
+    container_name: fleetify-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - PORT=8080
+      - DB_HOST=db 
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=123rafi456
+      - DB_NAME=fleetify_db
+      - JWT_SECRET=supersecretJwtKey123
+
+volumes:
+  postgres_data:
