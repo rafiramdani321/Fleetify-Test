@@ -53,22 +53,22 @@ func ConnectDB() {
 
 func seedData(db *gorm.DB) {
 	users := []models.User{
-		{Username: "Admin", Password: "@Admin123", Role: "admin"},
-		{Username: "Kerani", Password: "@Kerani123", Role: "kerani"},
+		{ID: 1, Username: "admin", Password: "admin123", Role: "admin"},
+		{ID: 2, Username: "kerani", Password: "kerani123", Role: "kerani"},
 	}
 	for _, u := range users {
-		db.FirstOrCreate(&models.User{}, models.User{Username: u.Username, Password: u.Password, Role: u.Role})
+		db.FirstOrCreate(&models.User{}, models.User{ID: u.ID, Username: u.Username, Password: u.Password, Role: u.Role})
 	}
 	log.Println("Users seeded!")
 
 	items := []models.Item{
-		{Code: "BRG-001", Name: "Mouse", Price: 750000},
-		{Code: "BRG-002", Name: "Laptop", Price: 16500000},
-		{Code: "BRG-003", Name: "Keyboard", Price: 850000},
-		{Code: "BRG-004", Name: "Headset", Price: 1200000},
+		{ID: 1, Code: "BRG-001", Name: "Mouse", Price: 750000},
+		{ID: 2, Code: "BRG-002", Name: "Laptop", Price: 16500000},
+		{ID: 3, Code: "BRG-003", Name: "Keyboard", Price: 850000},
+		{ID: 4, Code: "BRG-004", Name: "Headset", Price: 1200000},
 	}
 	for _, item := range items {
-		db.FirstOrCreate(&models.Item{}, models.Item{Code: item.Code, Name: item.Name, Price: item.Price})
+		db.FirstOrCreate(&models.Item{}, models.Item{ID: item.ID, Code: item.Code, Name: item.Name, Price: item.Price})
 	}
 	log.Println("Item seeded!")
 }
